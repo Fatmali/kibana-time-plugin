@@ -64,6 +64,9 @@ module.config(function($httpProvider) {
       preview: undefined,
       round: false
     };
+    $scope.months = moment.monthsShort()
+    $scope.years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018]
+
     $scope.sliderRoundOptions = [
       {text: 'Second', value: 's'},
       {text: 'Minute', value: 'm'},
@@ -129,6 +132,7 @@ module.config(function($httpProvider) {
         //clean up old selections
         $scope.activeSlide = {
           absolute: false,
+          absoluteMonth: false,
           quick: false,
           relative: false
         };
@@ -138,7 +142,9 @@ module.config(function($httpProvider) {
           from: from,
           to: to,
           absolute_from: dateMath.parse(from),
-          absolute_to: dateMath.parse(to, true)
+          absolute_to: dateMath.parse(to, true),
+          absolute_month: 0,
+          absolute_year: 2018
         }
         setRelativeParts(to, from);
         if('quick' === timefilter.time.mode) {
@@ -200,6 +206,37 @@ module.config(function($httpProvider) {
       expectedTo = $scope.time.to, true;
       updateKbnTime();
     };
+
+        $scope.setAbsoluteMonth = function() {
+      $scope.time.mode = 'absolute';
+      $scope.time.from = getTimeFrom();
+      $scope.time.to = getTimeTo();
+      expectedFrom = $scope.time.from;
+      expectedTo = $scope.time.to;
+      updateKbnTime();
+    };
+
+    $scope.setAbsoluteFrom = function() {
+      $scope.time.absolute_from = getTimeFrom();
+      $scope.time.absolute_to = getTimeTo();
+    }
+
+    function getTimeFrom() {
+        let month = $scope.time.absolute_month;
+        let year = $scope.time.absolute_year;
+        let date = new Date(year, month, 1);
+        return moment(date).format();
+
+    }
+
+    function getTimeTo() {
+      let month = $scope.time.absolute_month + 1;
+      let year = $scope.time.absolute_year;
+      let date = new Date(year,month,0);
+      date.setHours(23,59,59,999);
+      return moment(date).format();
+
+    }
 
     $scope.snapToNearest = function() {
       $scope.$broadcast('timesliderSnapToNearest', {

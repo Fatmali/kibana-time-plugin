@@ -123,6 +123,63 @@
           </select>
         </div>
       </slide>
+
+      <slide ng-if="vis.params.enable_absolut_month" active="activeSlide.absoluteMonth">
+        <h4 style="margin-top: 0px; margin-bottom: 2px;">
+          <strong>
+            <i aria-hidden="true" class="fa fa-clock-o"></i> Absolute Month</strong>
+        </h4>
+        <div class="margin-top:15px;">
+          <label class="small">
+            <span ng-show="!time.absolute_from">
+              <i>Invalid Date</i>
+            </span>
+            <span ng-show="time.absolute_from">
+              <i>
+                <b>{{time.absolute_from | date:'mediumDate'}}</b>
+              </i>
+            </span>
+          </label> -
+          <label class="small" style="margin-right:15px">
+            <span ng-show="!time.absolute_to">
+              <i>Invalid Date</i>
+            </span>
+            <span ng-show="time.absolute_to">
+              <i>
+                <b>{{time.absolute_to | date:'mediumDate'}}</b>
+              </i>
+            </span>
+          </label>
+        </div>
+        <form ng-submit="setAbsoluteMonth()" style="margin-top:10px;">
+          <div class="form-group" style="display: inline-block;">
+  
+            <select class="form-control" ng-model="time.absolute_month" ng-change="setAbsoluteFrom()">
+              <option ng-repeat="month in months" ng-value="{{$index}}">{{month}}</option>
+            </select>
+          </div>
+  
+  
+          <div class="form-group" style="display: inline-block;">
+            <select class="form-control" ng-model="time.absolute_year" ng-change="setAbsoluteFrom()">
+              <option ng-repeat="year in years">{{year}}</option>
+            </select>
+          </div>
+  
+          <div style="margin-top:5px;">
+            <div class="form-group">
+              <button class="btn btn-primary" style="margin-bottom: 60px;" ng-disabled="time.absolute_from > time.absolute_to || !time.absolute_from || !time.absolute_to"
+                type="submit">
+                Go
+              </button>
+            </div>
+            <span class="small" ng-show="time.absolute_from > time.absolute_to">
+              <strong>From</strong> must occur before
+              <strong>To</strong>
+            </span>
+          </div>
+        </form>
+      </slide>
     </carousel>
 
 

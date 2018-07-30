@@ -30,6 +30,7 @@ function TimeVisProvider(Private) {
           enable_relative: true,
           enable_absolut: true,
           enable_animation: true,
+          enable_absolut_month: true,
       }
     },
     editorConfig: {
